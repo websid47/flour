@@ -521,17 +521,16 @@
       </div>
       <div class="contact-detail">
         <i class="fab fa-whatsapp contact-detail-icon"></i>
-        <div class="contact-detail-text"><strong>WhatsApp</strong>+1 (000) 000-0000</div>
+        <div class="contact-detail-text"><strong>WhatsApp</strong>+213 654 84 60 45</div>
       </div>
       <div class="contact-detail">
         <i class="fas fa-envelope contact-detail-icon"></i>
-        <div class="contact-detail-text"><strong>Email</strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cfa7aaa3a3a08fb9aaa3b9aabbaea1aba9a3a0babde1aca0a2">[email&#160;protected]</a></div>
+        <div class="contact-detail-text"><strong>Email</strong>ahmdwebs01@gmail.com</div>
       </div>
       <div class="social-row">
         <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
         <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
         <a href="#" class="social-link" title="TikTok"><i class="fab fa-tiktok"></i></a>
-        <a href="#" class="social-link" title="Pinterest"><i class="fab fa-pinterest-p"></i></a>
       </div>
     </div>
     <div>
@@ -671,8 +670,8 @@
     const note = document.getElementById('cartNote').value;
     const lines = cart.map(i => `• ${i.qty}x ${i.name} ($${(i.price*i.qty).toFixed(2)})`).join('\n');
     const msg = `Hello Velvet & Flour! 🎂\n\nI'd like to place an order:\n\n${lines}\n\nTotal: $${total.toFixed(2)}${note ? '\n\nNotes: ' + note : ''}`;
-    document.getElementById('whatsappBtn').href = `https://wa.me/10000000000?text=${encodeURIComponent(msg)}`;
-    document.getElementById('emailBtn').href = `mailto:hello@velvetandflour.com?subject=${encodeURIComponent('Order – $' + total.toFixed(2))}&body=${encodeURIComponent(msg)}`;
+    document.getElementById('whatsappBtn').href = `https://wa.me/213654846045?text=${encodeURIComponent(msg)}`;
+    document.getElementById('emailBtn').href = `mailto:ahmdwebs01@gmail.com?subject=${encodeURIComponent('Order – $' + total.toFixed(2))}&body=${encodeURIComponent(msg)}`;
   }
 
   document.getElementById('cartNote').addEventListener('input', () => {

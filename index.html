@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velvet & Flour – Artisan Cake Boutique</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #C9A96E; --gold-light: #E8D5B0; --gold-dark: #9B7A45;
+      --cream: #FAF7F2; --dark: #1A1410; --brown: #3D2B1F;
+      --mid: #6B4F3A; --white: #FFFFFF;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: var(--dark); overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 22px 60px; display: flex; align-items: center; justify-content: space-between; transition: background 0.4s, padding 0.4s; }
+    nav.scrolled { background: rgba(26,20,16,0.97); padding: 14px 60px; backdrop-filter: blur(10px); }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; letter-spacing: 3px; color: var(--gold-light); text-decoration: none; }
+    .nav-logo span { font-style: italic; color: var(--gold); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.68rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cart { position: relative; cursor: pointer; color: var(--gold-light); font-size: 1.2rem; background: none; border: none; transition: color 0.3s; }
+    .nav-cart:hover { color: var(--gold); }
+    .cart-badge { position: absolute; top: -8px; right: -8px; background: var(--gold); color: var(--dark); font-size: 0.6rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: none; align-items: center; justify-content: center; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { width: 24px; height: 1.5px; background: var(--gold-light); transition: 0.3s; }
+
+    /* HERO */
+    #hero { height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #130b05 0%, #2a1508 50%, #130d05 100%); }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 50%, rgba(201,169,110,0.18) 0%, transparent 65%); }
+    .hero-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(201,169,110,0.12); pointer-events: none; }
+    .hero-ring:nth-child(2) { width: 560px; height: 560px; top: 50%; left: 58%; transform: translate(-50%,-50%); }
+    .hero-ring:nth-child(3) { width: 760px; height: 760px; top: 50%; left: 58%; transform: translate(-50%,-50%); }
+    .hero-ring:nth-child(4) { width: 960px; height: 960px; top: 50%; left: 58%; transform: translate(-50%,-50%); }
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 20px; max-width: 820px; }
+    .hero-eyebrow { font-size: 0.62rem; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
+    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(4.5rem, 11vw, 8rem); font-weight: 300; line-height: 0.93; color: var(--white); }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-divider { width: 55px; height: 1px; background: var(--gold); margin: 26px auto; }
+    .hero-tagline { font-size: 0.68rem; letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 40px; }
+    .hero-cta { display: inline-block; border: 1px solid var(--gold); color: var(--gold); font-size: 0.62rem; letter-spacing: 4px; text-transform: uppercase; padding: 16px 46px; text-decoration: none; transition: background 0.3s, color 0.3s; }
+    .hero-cta:hover { background: var(--gold); color: var(--dark); }
+    .hero-scroll { position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.25); font-size: 0.52rem; letter-spacing: 3px; text-transform: uppercase; }
+    .hero-scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--gold), transparent); animation: sLine 2s ease-in-out infinite; }
+    @keyframes sLine { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+    /* SECTIONS */
+    section { padding: 100px 60px; }
+    .section-eyebrow { font-size: 0.6rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; text-align: center; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 300; text-align: center; color: var(--brown); margin-bottom: 14px; line-height: 1.1; }
+    .section-title em { font-style: italic; color: var(--gold-dark); }
+    .section-divider { width: 48px; height: 1px; background: var(--gold); margin: 0 auto 60px; }
+
+    /* GALLERY */
+    #gallery { background: var(--dark); }
+    #gallery .section-title { color: var(--gold-light); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; max-width: 1200px; margin: 0 auto; }
+    .gallery-item { position: relative; overflow: hidden; cursor: pointer; }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .gallery-item:nth-child(6) { grid-column: span 2; }
+    .cake-visual { width: 100%; min-height: 200px; display: flex; align-items: center; justify-content: center; font-size: 4rem; transition: transform 0.6s ease; }
+    .gallery-item:nth-child(1) .cake-visual { min-height: 420px; font-size: 6.5rem; }
+    .gallery-item:nth-child(6) .cake-visual { font-size: 4.5rem; }
+    .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,20,16,0.88) 0%, transparent 55%); opacity: 0; transition: opacity 0.4s; display: flex; align-items: flex-end; padding: 22px; }
+    .gallery-overlay span { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-style: italic; color: var(--gold-light); }
+    .gallery-item:hover .cake-visual { transform: scale(1.07); }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gb1{background:linear-gradient(135deg,#3a1a0a,#6b3020)}
+    .gb2{background:linear-gradient(135deg,#0f2010,#1a4020)}
+    .gb3{background:linear-gradient(135deg,#0f0f35,#1a1a60)}
+    .gb4{background:linear-gradient(135deg,#3a0f28,#6b1545)}
+    .gb5{background:linear-gradient(135deg,#2a1505,#5a3010)}
+    .gb6{background:linear-gradient(135deg,#082020,#103838)}
+
+    /* CAKES */
+    #cakes { background: var(--cream); }
+    .tabs { display: flex; border: 1px solid var(--gold-light); max-width: 420px; margin: 0 auto 58px; }
+    .tab-btn { flex: 1; padding: 13px 28px; font-size: 0.63rem; letter-spacing: 3px; text-transform: uppercase; background: transparent; border: none; cursor: pointer; color: var(--mid); transition: background 0.3s, color 0.3s; font-family: 'Montserrat', sans-serif; }
+    .tab-btn.active { background: var(--gold); color: var(--dark); }
+    .tab-btn:not(.active):hover { background: var(--gold-light); }
+    .cakes-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 28px; max-width: 1200px; margin: 0 auto; }
+    .cake-tab-content { display: none; }
+    .cake-tab-content.active { display: block; }
+    .cake-card { background: var(--white); box-shadow: 0 2px 18px rgba(60,30,15,0.06); transition: transform 0.3s, box-shadow 0.3s; overflow: hidden; }
+    .cake-card:hover { transform: translateY(-5px); box-shadow: 0 12px 38px rgba(60,30,15,0.12); }
+    .cake-card-img { height: 210px; display: flex; align-items: center; justify-content: center; font-size: 4.5rem; position: relative; overflow: hidden; }
+    .cake-card-badge { position: absolute; top: 12px; left: 12px; background: var(--gold); color: var(--dark); font-size: 0.52rem; letter-spacing: 2px; text-transform: uppercase; padding: 5px 9px; }
+    .cake-card-body { padding: 22px; }
+    .cake-card-name { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 400; color: var(--brown); margin-bottom: 7px; }
+    .cake-card-desc { font-size: 0.71rem; color: var(--mid); line-height: 1.75; margin-bottom: 18px; }
+    .cake-card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .cake-price { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; color: var(--gold-dark); font-weight: 500; }
+    .cake-price span { font-size: 0.75rem; color: var(--mid); }
+    .add-to-cart-btn { background: var(--dark); color: var(--gold-light); border: none; padding: 10px 18px; font-size: 0.58rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: background 0.3s, color 0.3s; }
+    .add-to-cart-btn:hover { background: var(--gold); color: var(--dark); }
+
+    /* CART SIDEBAR */
+    .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.52); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+    .cart-sidebar { position: fixed; top: 0; right: -480px; width: 460px; max-width: 96vw; height: 100vh; background: var(--white); z-index: 2001; transition: right 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; box-shadow: -8px 0 40px rgba(0,0,0,0.18); }
+    .cart-sidebar.open { right: 0; }
+    .cart-header { padding: 26px 30px; border-bottom: 1px solid var(--gold-light); display: flex; align-items: center; justify-content: space-between; }
+    .cart-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; font-weight: 300; color: var(--brown); }
+    .cart-close { background: none; border: none; cursor: pointer; color: var(--mid); font-size: 1.1rem; transition: color 0.3s; }
+    .cart-close:hover { color: var(--gold); }
+    .cart-items { flex: 1; overflow-y: auto; padding: 22px 30px; }
+    .cart-empty { text-align: center; padding: 56px 20px; color: var(--mid); font-size: 0.78rem; }
+    .cart-empty i { font-size: 2.4rem; color: var(--gold-light); margin-bottom: 14px; display: block; }
+    .cart-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(201,169,110,0.2); align-items: flex-start; }
+    .cart-item-emoji { font-size: 2.4rem; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-family: 'Cormorant Garamond', serif; font-size: 1.08rem; color: var(--brown); }
+    .cart-item-price { font-size: 0.73rem; color: var(--gold-dark); margin-top: 2px; }
+    .cart-item-qty { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+    .qty-btn { width: 26px; height: 26px; border: 1px solid var(--gold-light); background: none; cursor: pointer; font-size: 0.9rem; color: var(--mid); transition: 0.2s; }
+    .qty-btn:hover { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+    .qty-num { font-size: 0.8rem; min-width: 20px; text-align: center; }
+    .cart-item-remove { background: none; border: none; cursor: pointer; color: var(--gold-light); transition: color 0.2s; align-self: center; }
+    .cart-item-remove:hover { color: #c0392b; }
+    .cart-footer { padding: 22px 30px; border-top: 1px solid var(--gold-light); }
+    .cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+    .cart-total-label { font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); }
+    .cart-total-price { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--brown); }
+    .cart-note { width: 100%; padding: 12px; margin-bottom: 14px; border: 1px solid var(--gold-light); font-family: 'Montserrat', sans-serif; font-size: 0.73rem; color: var(--dark); resize: none; height: 76px; background: var(--cream); }
+    .cart-note:focus { outline: none; border-color: var(--gold); }
+    .order-btns { display: flex; flex-direction: column; gap: 9px; }
+    .order-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px; border: none; cursor: pointer; font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; text-decoration: none; transition: opacity 0.3s; }
+    .order-btn:hover { opacity: 0.85; }
+    .order-btn-whatsapp { background: #25D366; color: white; }
+    .order-btn-email { background: var(--dark); color: var(--gold-light); }
+
+    /* ABOUT */
+    #about { background: var(--brown); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 100px 80px; }
+    .about-img-frame { width: 100%; aspect-ratio: 4/5; background: linear-gradient(135deg, #2a1508, #4a2a15); display: flex; align-items: center; justify-content: center; font-size: 8rem; position: relative; }
+    .about-img-frame::before { content: ''; position: absolute; top: 20px; left: 20px; right: -20px; bottom: -20px; border: 1px solid rgba(201,169,110,0.28); }
+    .about-tag { position: absolute; bottom: -26px; right: -26px; background: var(--gold); padding: 22px; text-align: center; }
+    .about-tag-num { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; color: var(--dark); line-height: 1; display: block; }
+    .about-tag-text { font-size: 0.52rem; letter-spacing: 2px; text-transform: uppercase; color: var(--dark); display: block; margin-top: 4px; }
+    .about-visual { position: relative; }
+    .about-content .section-title { text-align: left; color: var(--gold-light); }
+    .about-content .section-eyebrow { text-align: left; }
+    .about-content .section-divider { margin: 0 0 30px; }
+    .about-text { font-size: 0.8rem; line-height: 1.95; color: rgba(255,255,255,0.58); margin-bottom: 18px; }
+    .about-signature { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-style: italic; color: var(--gold); margin-top: 30px; }
+
+    /* REVIEWS */
+    #reviews { background: var(--cream); }
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: 26px; max-width: 1100px; margin: 0 auto; }
+    .review-card { background: var(--white); padding: 34px; box-shadow: 0 2px 18px rgba(60,30,15,0.05); position: relative; }
+    .review-quote { font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: var(--gold-light); line-height: 0; position: absolute; top: 26px; left: 26px; }
+    .review-text { font-size: 0.8rem; line-height: 1.82; color: var(--mid); margin-top: 30px; margin-bottom: 22px; font-style: italic; }
+    .review-stars { color: var(--gold); font-size: 0.75rem; margin-bottom: 10px; }
+    .review-author { font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--brown); }
+
+    /* CONTACT */
+    #contact { background: var(--dark); }
+    #contact .section-title { color: var(--gold-light); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1100px; margin: 0 auto; }
+    .contact-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; color: var(--gold-light); margin-bottom: 26px; font-weight: 300; }
+    .contact-detail { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 22px; }
+    .contact-detail-icon { color: var(--gold); font-size: 1rem; margin-top: 2px; width: 20px; text-align: center; }
+    .contact-detail-text { font-size: 0.76rem; color: rgba(255,255,255,0.55); line-height: 1.75; }
+    .contact-detail-text strong { color: rgba(255,255,255,0.88); display: block; margin-bottom: 2px; font-weight: 500; }
+    .social-row { display: flex; gap: 12px; margin-top: 34px; }
+    .social-link { width: 42px; height: 42px; border: 1px solid rgba(201,169,110,0.28); display: flex; align-items: center; justify-content: center; color: var(--gold-light); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+    .social-link:hover { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+    .contact-form-title { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; color: var(--gold-light); margin-bottom: 26px; font-weight: 300; }
+    .contact-form input, .contact-form textarea { width: 100%; padding: 13px 17px; margin-bottom: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(201,169,110,0.18); color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 0.76rem; }
+    .contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(255,255,255,0.28); }
+    .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--gold); }
+    .contact-form textarea { height: 115px; resize: none; }
+    .contact-submit { width: 100%; padding: 15px; background: var(--gold); color: var(--dark); border: none; font-family: 'Montserrat', sans-serif; font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: background 0.3s; }
+    .contact-submit:hover { background: var(--gold-dark); color: var(--white); }
+    .form-success { display: none; text-align: center; color: var(--gold); padding: 18px; font-size: 0.78rem; letter-spacing: 1px; }
+
+    /* FOOTER */
+    footer { background: #0b0805; padding: 36px 60px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(201,169,110,0.1); }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 300; color: var(--gold-light); }
+    .footer-logo em { font-style: italic; color: var(--gold); }
+    .footer-copy { font-size: 0.62rem; color: rgba(255,255,255,0.28); letter-spacing: 1px; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--dark); color: var(--gold-light); padding: 13px 26px; font-size: 0.7rem; letter-spacing: 2px; z-index: 3000; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); white-space: nowrap; pointer-events: none; border-left: 3px solid var(--gold); }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* MOBILE NAV */
+    .mobile-nav { position: fixed; inset: 0; background: var(--dark); z-index: 1500; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 30px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .mobile-nav.open { opacity: 1; pointer-events: all; }
+    .mobile-nav a { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold-light); text-decoration: none; font-style: italic; }
+    .mobile-nav a:hover { color: var(--gold); }
+    .mobile-nav-close { position: absolute; top: 26px; right: 26px; background: none; border: none; color: var(--gold-light); font-size: 1.4rem; cursor: pointer; }
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      nav,nav.scrolled{padding:16px 24px}
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      section{padding:76px 24px}
+      #about{grid-template-columns:1fr;padding:76px 24px;gap:50px}
+      .about-tag{bottom:-18px;right:0}
+      .contact-grid{grid-template-columns:1fr;gap:44px}
+      .gallery-grid{grid-template-columns:repeat(2,1fr)}
+      .gallery-item:nth-child(1){grid-column:span 2}
+      .gallery-item:nth-child(6){grid-column:span 2}
+      footer{flex-direction:column;gap:10px;text-align:center;padding:28px 24px}
+    }
+    @media(max-width:520px){
+      .gallery-grid{grid-template-columns:1fr}
+      .gallery-item:nth-child(1),.gallery-item:nth-child(6){grid-column:span 1}
+      .cart-sidebar{width:100vw;max-width:100vw}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Velvet <span>&</span> Flour</a>
+  <ul class="nav-links">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#cakes">Our Cakes</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cart" onclick="toggleCart()">
+    <i class="fas fa-shopping-bag"></i>
+    <span class="cart-badge" id="cartBadge">0</span>
+  </button>
+  <button class="hamburger" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="toggleMobileNav()"><i class="fas fa-times"></i></button>
+  <a href="#gallery" onclick="toggleMobileNav()">Gallery</a>
+  <a href="#cakes" onclick="toggleMobileNav()">Our Cakes</a>
+  <a href="#about" onclick="toggleMobileNav()">About</a>
+  <a href="#reviews" onclick="toggleMobileNav()">Reviews</a>
+  <a href="#contact" onclick="toggleMobileNav()">Contact</a>
+</div>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-ring"></div>
+    <div class="hero-ring"></div>
+    <div class="hero-ring"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Artisan Cake Boutique</p>
+    <h1 class="hero-title">Velvet<br><em>&</em><br>Flour</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-tagline">Where tradition meets elegance</p>
+    <a href="#cakes" class="hero-cta">Explore Our Cakes</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ═══════════ GALLERY ═══════════ -->
+<section id="gallery">
+  <p class="section-eyebrow">Our Portfolio</p>
+  <h2 class="section-title">A Feast for <em>the Eyes</em></h2>
+  <div class="section-divider"></div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <div class="cake-visual gb1">🎂</div>
+      <div class="gallery-overlay"><span>Wedding Masterpiece</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="cake-visual gb2">🍰</div>
+      <div class="gallery-overlay"><span>Forest Gateau</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="cake-visual gb4">🌹</div>
+      <div class="gallery-overlay"><span>Rose Velvet</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="cake-visual gb3">✨</div>
+      <div class="gallery-overlay"><span>Gold Celebration</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="cake-visual gb5">🍫</div>
+      <div class="gallery-overlay"><span>Chocolate Noir</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="cake-visual gb6">🌸</div>
+      <div class="gallery-overlay"><span>Floral Collection</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ OUR CAKES ═══════════ -->
+<section id="cakes">
+  <p class="section-eyebrow">Our Menu</p>
+  <h2 class="section-title">Crafted with <em>Passion</em></h2>
+  <div class="section-divider"></div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('signature',this)">Signature Cakes</button>
+    <button class="tab-btn" onclick="switchTab('traditional',this)">Traditional Cakes</button>
+  </div>
+
+  <!-- Signature -->
+  <div class="cake-tab-content active" id="signature">
+    <div class="cakes-grid">
+      <div class="cake-card">
+        <div class="cake-card-img gb4">🎂<span class="cake-card-badge">Bestseller</span></div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Red Velvet Dream</h3>
+          <p class="cake-card-desc">Layers of crimson velvet sponge, silky cream cheese frosting, and a touch of vanilla elegance.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$48 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Red Velvet Dream',48,'🎂')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb3">✨</div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Gold Leaf Celebration</h3>
+          <p class="cake-card-desc">Champagne sponge adorned with edible 24k gold leaf, champagne cream, and spun sugar.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$120 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Gold Leaf Celebration',120,'✨')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb2">🍰<span class="cake-card-badge">New</span></div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Matcha Forest Gateau</h3>
+          <p class="cake-card-desc">Japanese ceremonial matcha, dark chocolate ganache, and whisper-light chantilly cream.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$55 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Matcha Forest Gateau',55,'🍰')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb5">🍫</div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Dark Chocolate Noir</h3>
+          <p class="cake-card-desc">70% single-origin dark chocolate mousse, coffee-soaked sponge, and a mirror glaze finish.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$62 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Dark Chocolate Noir',62,'🍫')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb1">🌹</div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Rose & Lychee Gateau</h3>
+          <p class="cake-card-desc">Delicate rosewater chiffon, lychee compote, and fresh rose petal cream — a floral fantasy.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$58 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Rose & Lychee Gateau',58,'🌹')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb6">🎀</div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Wedding Tier Cake</h3>
+          <p class="cake-card-desc">Custom-designed for your special day. Three tiers, handcrafted sugar flowers, bespoke flavours.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$280 <span>/ 3-tier</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Wedding Tier Cake',280,'🎀')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Traditional -->
+  <div class="cake-tab-content" id="traditional">
+    <div class="cakes-grid">
+      <div class="cake-card">
+        <div class="cake-card-img gb5">🍯<span class="cake-card-badge">Heritage</span></div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Baklava Cake</h3>
+          <p class="cake-card-desc">Inspired by the ancient Middle-Eastern sweet — layers of filo, wild honey, and crushed pistachio.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$44 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Baklava Cake',44,'🍯')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb1">🫖</div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Saffron & Cardamom</h3>
+          <p class="cake-card-desc">A fragrant Persian-inspired cake with saffron-scented cream, rose jam, and cardamom sponge.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$52 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Saffron & Cardamom',52,'🫖')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb2">🌿<span class="cake-card-badge">Vegan</span></div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Orange Blossom Cake</h3>
+          <p class="cake-card-desc">Light semolina sponge drenched in orange blossom syrup, topped with fresh citrus zest cream.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$38 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Orange Blossom Cake',38,'🌿')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb4">🍒</div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Black Forest Classic</h3>
+          <p class="cake-card-desc">A timeless classic — kirsch-soaked chocolate sponge, whipped cream, and morello cherries.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$46 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Black Forest Classic',46,'🍒')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb6">🍋</div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Tarte au Citron</h3>
+          <p class="cake-card-desc">Classic French lemon tart — buttery shortcrust, silky lemon curd, and Italian meringue torchée.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$36 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Tarte au Citron',36,'🍋')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="cake-card">
+        <div class="cake-card-img gb3">👑</div>
+        <div class="cake-card-body">
+          <h3 class="cake-card-name">Maamoul Date Cake</h3>
+          <p class="cake-card-desc">A beloved Levantine classic reimagined — rich date and walnut filling in a semolina crown.</p>
+          <div class="cake-card-footer">
+            <div class="cake-price">$40 <span>/ whole</span></div>
+            <button class="add-to-cart-btn" onclick="addToCart('Maamoul Date Cake',40,'👑')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about">
+  <div class="about-visual">
+    <div class="about-img-frame">🎂</div>
+    <div class="about-tag">
+      <span class="about-tag-num">10+</span>
+      <span class="about-tag-text">Years of Craft</span>
+    </div>
+  </div>
+  <div class="about-content">
+    <p class="section-eyebrow">Our Story</p>
+    <h2 class="section-title">Baked with <em>Love</em> & Heritage</h2>
+    <div class="section-divider"></div>
+    <p class="about-text">Velvet & Flour was born from a simple belief: that a cake should be more than dessert — it should be an experience, a memory, a moment of pure joy wrapped in the finest ingredients.</p>
+    <p class="about-text">Our artisans draw from both contemporary French pastry technique and the rich heritage of traditional baking, creating cakes that feel timeless yet utterly original. Every layer, every brushstroke of gold, every hand-piped rose is placed with intention.</p>
+    <p class="about-text">From intimate celebration cakes to grand wedding centrepieces, we pour our hearts into every single order.</p>
+    <div class="about-signature">Velvet & Flour</div>
+  </div>
+</section>
+
+<!-- ═══════════ REVIEWS ═══════════ -->
+<section id="reviews">
+  <p class="section-eyebrow">Testimonials</p>
+  <h2 class="section-title">Words from Our <em>Guests</em></h2>
+  <div class="section-divider"></div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <span class="review-quote">"</span>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">The wedding cake was an absolute work of art. Every single guest asked about it. The flavour matched the beauty — it was perfection on every level.</p>
+      <p class="review-author">— Sophia & James, Wedding Clients</p>
+    </div>
+    <div class="review-card">
+      <span class="review-quote">"</span>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">I ordered the Saffron & Cardamom cake for my mother's birthday. She said it transported her back to her childhood. Nothing short of magical.</p>
+      <p class="review-author">— Layla H.</p>
+    </div>
+    <div class="review-card">
+      <span class="review-quote">"</span>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">The Gold Leaf Celebration cake was the centrepiece of our gala dinner. Velvet & Flour delivered something truly extraordinary. We'll be back for every event.</p>
+      <p class="review-author">— Marcus A., Corporate Client</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
+  <p class="section-eyebrow">Get in Touch</p>
+  <h2 class="section-title">Visit <em>or Order</em></h2>
+  <div class="section-divider"></div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Find Us</h3>
+      <div class="contact-detail">
+        <i class="fas fa-map-marker-alt contact-detail-icon"></i>
+        <div class="contact-detail-text"><strong>Address</strong>12 Golden Lane, Pastry Quarter<br>Your City, 10001</div>
+      </div>
+      <div class="contact-detail">
+        <i class="fas fa-clock contact-detail-icon"></i>
+        <div class="contact-detail-text"><strong>Opening Hours</strong>Mon–Sat: 9:00 AM – 8:00 PM<br>Sunday: 10:00 AM – 5:00 PM</div>
+      </div>
+      <div class="contact-detail">
+        <i class="fab fa-whatsapp contact-detail-icon"></i>
+        <div class="contact-detail-text"><strong>WhatsApp</strong>+1 (000) 000-0000</div>
+      </div>
+      <div class="contact-detail">
+        <i class="fas fa-envelope contact-detail-icon"></i>
+        <div class="contact-detail-text"><strong>Email</strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cfa7aaa3a3a08fb9aaa3b9aabbaea1aba9a3a0babde1aca0a2">[email&#160;protected]</a></div>
+      </div>
+      <div class="social-row">
+        <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="#" class="social-link" title="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+      </div>
+    </div>
+    <div>
+      <p class="contact-form-title">Send a Message</p>
+      <div class="contact-form" id="contactForm">
+        <input type="text" placeholder="Your Name" id="cf-name" />
+        <input type="email" placeholder="Your Email" id="cf-email" />
+        <input type="text" placeholder="Subject" />
+        <textarea placeholder="Your message..."></textarea>
+        <button class="contact-submit" onclick="submitContactForm()">Send Message</button>
+        <div class="form-success" id="formSuccess">✦ Thank you! We'll be in touch shortly. ✦</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Velvet <em>&</em> Flour</div>
+  <p class="footer-copy">© 2025 Velvet & Flour. All rights reserved.</p>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>Your Order</h2>
+    <button class="cart-close" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">
+      <i class="fas fa-shopping-bag"></i>
+      Your cart is empty.<br>Add some cakes to get started!
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-price" id="cartTotal">$0.00</span>
+    </div>
+    <textarea class="cart-note" id="cartNote" placeholder="Special instructions, delivery address, occasion date..."></textarea>
+    <div class="order-btns">
+      <a class="order-btn order-btn-whatsapp" id="whatsappBtn" href="#" target="_blank">
+        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+      </a>
+      <a class="order-btn order-btn-email" id="emailBtn" href="#">
+        <i class="fas fa-envelope"></i> Order via Email
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // NAV SCROLL
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // MOBILE NAV
+  function toggleMobileNav() {
+    document.getElementById('mobileNav').classList.toggle('open');
+  }
+
+  // TABS
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.cake-tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // CART
+  let cart = [];
+
+  function addToCart(name, price, emoji) {
+    const existing = cart.find(i => i.name === name);
+    if (existing) { existing.qty++; }
+    else { cart.push({ name, price, emoji, qty: 1 }); }
+    updateCart();
+    showToast('✦ ' + name + ' added to your order');
+  }
+
+  function removeFromCart(name) {
+    cart = cart.filter(i => i.name !== name);
+    updateCart();
+  }
+
+  function changeQty(name, delta) {
+    const item = cart.find(i => i.name === name);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+    updateCart();
+  }
+
+  function updateCart() {
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+
+    const badge = document.getElementById('cartBadge');
+    badge.style.display = count > 0 ? 'flex' : 'none';
+    badge.textContent = count;
+    document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+
+    const container = document.getElementById('cartItems');
+    container.querySelectorAll('.cart-item').forEach(el => el.remove());
+    document.getElementById('cartEmpty').style.display = cart.length === 0 ? 'block' : 'none';
+
+    cart.forEach(item => {
+      const safeN = item.name.replace(/'/g, "\\'");
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-item-emoji">${item.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-price">$${item.price.toFixed(2)} each</div>
+          <div class="cart-item-qty">
+            <button class="qty-btn" onclick="changeQty('${safeN}',-1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${safeN}',1)">+</button>
+          </div>
+        </div>
+        <button class="cart-item-remove" onclick="removeFromCart('${safeN}')"><i class="fas fa-trash-alt"></i></button>
+      `;
+      container.appendChild(div);
+    });
+
+    updateOrderLinks(total);
+  }
+
+  function updateOrderLinks(total) {
+    if (cart.length === 0) return;
+    const note = document.getElementById('cartNote').value;
+    const lines = cart.map(i => `• ${i.qty}x ${i.name} ($${(i.price*i.qty).toFixed(2)})`).join('\n');
+    const msg = `Hello Velvet & Flour! 🎂\n\nI'd like to place an order:\n\n${lines}\n\nTotal: $${total.toFixed(2)}${note ? '\n\nNotes: ' + note : ''}`;
+    document.getElementById('whatsappBtn').href = `https://wa.me/10000000000?text=${encodeURIComponent(msg)}`;
+    document.getElementById('emailBtn').href = `mailto:hello@velvetandflour.com?subject=${encodeURIComponent('Order – $' + total.toFixed(2))}&body=${encodeURIComponent(msg)}`;
+  }
+
+  document.getElementById('cartNote').addEventListener('input', () => {
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    updateOrderLinks(total);
+  });
+
+  function toggleCart() {
+    const sidebar = document.getElementById('cartSidebar');
+    const overlay = document.getElementById('cartOverlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+    document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+  }
+
+  // TOAST
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // CONTACT FORM
+ // CONTACT FORM
+  function submitContactForm() {
+    const name = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    if (!name || !email) { showToast('Please fill in your name and email.'); return; }
+    document.querySelectorAll('#contactForm input, #contactForm textarea').forEach(el => el.value = '');    const success = document.getElementById('formSuccess');
+    success.style.display = 'block';
+    setTimeout(() => success.style.display = 'none', 5000);
+    showToast('✦ Message sent! Thank you.');
+  }
+</script>
+</body>
+</html>
